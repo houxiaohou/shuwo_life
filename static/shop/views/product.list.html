@@ -1,0 +1,36 @@
+<div class="container-fluid product">
+  <div class="global-header text-center">
+    <span class="title">产品列表</span>
+    <a ui-sref="shuwoShop.main" class="link home">
+      <i class="fa fa-home"></i>
+    </a>
+  </div>
+  <p class="loading text-center" ng-show="loading">
+    <i class="fa fa-spinner fa-spin"></i>
+  </p>
+
+  <div class="container-fluid product-list">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>产品</th>
+        <th>价格</th>
+        <th>是否在售</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="p in products">
+        <td>{{p.productname}}</td>
+        <td>{{p.discount}}/{{p.unit}}</td>
+        <td>
+          <input bs-switch type="checkbox" ng-model="p.issale" switch-on-text="在售" switch-off-text="已下架" switch-size="small" ng-change="changeProduct(p)">
+        </td>
+        <td>
+          <button class="btn btn-sm btn-default" ui-sref="shuwoShop.product.detail({id:p.productid})">编辑</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div ui-view></div>
+<div id="footer" class="footer container" ng-show="page.hasFooter();">
+  <div class="row">
+    <div class="col-xs-4">
+      <a ui-sref="shuwoShop.main" ng-class="{'active': page.getFooterNav() == 'order'}">
+        <i class="fa fa-file-text-o fa-fw"></i>
+        <span>订单</span>
+      </a>
+    </div>
+    <div class="col-xs-4">
+      <a ui-sref="shuwoShop.shop" ng-class="{'active': page.getFooterNav() == 'shop'}">
+        <i class="fa fa-building fa-fw"></i>
+        <span>店铺</span>
+      </a>
+    </div>
+    <div class="col-xs-4">
+      <a ui-sref="shuwoShop.product.list" ng-class="{'active': page.getFooterNav() == 'product'}">
+        <i class="fa fa-list fa-fw"></i>
+        <span>产品</span>
+      </a>
+    </div>
+  </div>
+</div>

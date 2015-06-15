@@ -1,0 +1,33 @@
+<div class="container-fluid shop">
+  <div class="global-header checkout-nav text-center">
+    <span class="title">店铺</span>
+    <a ui-sref="shuwoShop.main" class="link home">
+      <i class="fa fa-home"></i>
+    </a>
+  </div>
+  <p class="loading text-center" ng-show="loading">
+    <i class="fa fa-spinner fa-spin"></i>
+  </p>
+
+  <div class="container-fluid shop-detail" ng-show="!loading">
+    <div class="row status" ng-if="shop.isopen">
+      <p><span class="text-20 color-green">营业中</span></p>
+      <p class="text-small">当前店铺营业中，点击下面按钮不再接受新订单</p>
+      <button class="btn btn-danger btn-block" ng-click="shopStatus()">暂停营业</button>
+    </div>
+    <div class="row status" ng-if="!shop.isopen">
+      <p><span class="text-20 color-red">已暂停营业</span></p>
+      <p class="text-small">点击下面按钮接受新订单</p>
+      <button class="btn btn-success btn-block" ng-click="shopStatus()">恢复营业</button>
+    </div>
+
+    <form>
+      <div class="form-group">
+        <label>店铺公告</label>
+        <textarea rows="2" class="form-control" ng-model="shop.notice"></textarea>
+      </div>
+      <a class="btn btn-success btn-block" ng-click="updateShop()">保存店铺公告</a>
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<h3>添加店铺</h3>
+
+<div class="row">
+  <div class="col-lg-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">添加店铺</div>
+      <div class="panel-body">
+        <form role="form" name="addStoreForm">
+          <div class="form-group">
+            <label>店铺名称</label>
+            <input type="text" placeholder="输入店铺名称" class="form-control" ng-model="shop.spn" required>
+          </div>
+          <div class="form-group">
+            <label>省份</label>
+            <input type="text" placeholder="所在省份" class="form-control" ng-model="shop.province" required>
+          </div>
+          <div class="form-group">
+            <label>城市</label>
+            <input type="text" placeholder="所在城市" class="form-control" ng-model="shop.city" required>
+          </div>
+          <div class="form-group">
+            <label>区域</label>
+            <input type="text" placeholder="所在区域" class="form-control" ng-model="shop.district" required>
+          </div>
+          <div class="form-group">
+            <label>店铺地址（输入完地址后点击右侧地图，添加店铺坐标）</label>
+            <textarea placeholder="输入店铺地址" class="form-control" ng-model="shop.spadr" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>起送价格</label>
+            <input type="number" placeholder="输入起送价格，数字" class="form-control" ng-model="shop.dlprice" required>
+          </div>
+          <div class="form-group">
+            <label>是否营业中</label><br />
+            <label class="switch">
+              <input type="checkbox" ng-model="shop.isopen">
+              <span></span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label>店铺公告</label>
+            <textarea placeholder="输入店铺公告" class="form-control" ng-model="shop.notice" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>联系人姓名</label>
+            <input type="text" placeholder="联系人姓名" class="form-control" ng-model="shop.contacts" required>
+          </div>
+          <div class="form-group">
+            <label>联系人电话</label>
+            <input type="text" placeholder="联系人电话" class="form-control" ng-model="shop.phone" required>
+          </div>
+          <div class="form-group">
+            <label>店铺logo</label><br />
+            <img ng-src="{{shop.simgurl}}" alt="" ng-show="shop.simgurl.length>0" width="100"/>
+            <div ng-controller="UploadCtrl" id="container">
+              <a class="btn btn-block btn-default" id="upload-btn"><i class="fa fa-upload"></i> 上传图片</a>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success btn-block" ng-click="saveShop();" ng-disabled="!addStoreForm.$valid">保存</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div id="map" style="width: 500px;height: 400px;"></div>
+  </div>
+</div>

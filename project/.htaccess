@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 10 seconds"
+    ExpiresByType image/gif "access plus 1 years"
+    ExpiresByType image/jpg "access plus 1 years"
+    ExpiresByType image/jpeg "access plus 1 years"
+    ExpiresByType image/png "access plus 1 years"
+    ExpiresByType image/vnd.microsoft.icon "access plus 1 years"
+    ExpiresByType image/x-icon "access plus 1 years"
+    ExpiresByType image/ico "access plus 1 years"
+    ExpiresByType application/javascript "now plus 1 years"
+    ExpiresByType application/x-javascript "now plus 1 years"
+    ExpiresByType text/javascript "now plus 1 years"
+    ExpiresByType text/css "now plus 1 years"
+</IfModule>

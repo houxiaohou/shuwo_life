@@ -1,0 +1,64 @@
+<div class="container-fluid order">
+  <div class="global-header order-nav text-center">
+    <span class="title">订单列表</span>
+  </div>
+  <div class="order-select">
+    <label>点击按订单状态筛选</label>
+    <select class="form-control text-center" ng-model="orderStatus" ng-options="s as s.label for s in status"></select>
+  </div>
+  <p class="loading text-center" ng-show="loading">
+    <i class="fa fa-spinner fa-spin"></i>
+  </p>
+  <div class="container-fluid order-items">
+    <p ng-show="orders.length==0&&!loading" class="text-center loading">还没有订单</p>
+    <ul class="list-group" infinite-scroll="loadMore()" infinite-scroll-disabled="loading" infinite-scroll-distance="2" ng-show="orders.length>0" infinite-scroll-immediate-check="1==2">
+      <li class="list-group-item order-list" ng-repeat="o in orders" ng-class="{'waiting': o.orderstatus=='0', 'done': o.orderstatus=='1', 'invalid': o.orderstatus=='2'}">
+        <div class="info">
+          <p>订单状态：<span class="text-20" ng-class="{'color-red': o.orderstatus=='0', 'color-green': o.orderstatus=='1'}">{{o.orderstatus | orderStatus}}</span></p>
+          <p>订单编号：{{o.orderid}}</p>
+          <p>订单时间：{{o.createdtime}}</p>
+          <p class="divider-green" ng-if="o.orderstatus!='2'"></p>
+          <p>手机：<a ng-href="tel:{{o.phone}}" class="tel">{{o.phone}}（点击拨打）</a></p>
+          <p>地址：{{o.address}}</p>
+          <p ng-if="o.notes.length>0">备注：{{o.notes}}</p>
+          <p class="divider-grey"></p>
+        </div>
+        <ul class="list-group order-item-group">
+          <li class="list-group-item order-item-list text-center row" ng-repeat="p in o.productdetail">
+            <div class="col-xs-4">{{p.productname}}</div>
+            <div class="col-xs-4">
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="p.attribute=='1'&&(o.orderstatus=='0'||o.orderstatus=='2')">{{p.quantity}}个<span class="text-small">（约{{p.quantity*p.unitweight | weight}}）</span></p>
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="p.attribute=='1'&&o.orderstatus=='1'">{{p.quantity}}个<span class="text-small">（{{p.realweight}}g）</span></p>
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="p.attribute=='2'">{{p.quantity*250}}g</p>
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="p.attribute=='3'">{{p.quantity}}{{p.unit}}</p>
+            </div>
+            <div class="col-xs-4">
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="p.attribute=='1'&&(o.orderstatus=='0'||o.orderstatus=='2')">约￥{{p.realprice}}</p>
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="p.attribute=='1'&&o.orderstatus=='1'">￥{{p.realprice}}</p>
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="p.attribute=='2'||p.attribute=='3'">￥{{p.realprice}}</p>
+            </div>
+          </li>
+          <p class="divider-grey"></p>
+          <div class="row text-center">
+            <div class="col-xs-4">总价</div>
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="o.orderstatus=='0'||o.orderstatus=='2'">约￥{{o.price}}</p>
+              <p ng-class="{'color-red': o.orderstatus!='2'}" ng-if="o.orderstatus=='1'">￥{{o.price}}</p>
+            </div>
+          </div>
+          <p class="divider-grey"></p>
+        </ul>
+        <div class="row text-center" ng-show="o.orderstatus=='0'">
+          <div class="col-xs-4">
+            <button class="btn btn-default" ui-sref="shuwoShop.order.invalid({id:o.orderid})">标记为无效</button>
+          </div>
+          <div class="col-xs-4"></div>
+          <div class="col-xs-4">
+            <button class="btn btn-success" ui-sref="shuwoShop.order.detail({id:o.orderid})">开始称重</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

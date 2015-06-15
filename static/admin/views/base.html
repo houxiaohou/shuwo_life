@@ -1,0 +1,35 @@
+<section class="wrapper">
+  <nav role="navigation" class="navbar navbar-default navbar-top navbar-fixed-top">
+    <div class="navbar-header">
+      <a href="javascript:void(0);" class="navbar-brand">
+        <div class="brand-logo">树窝</div>
+      </a>
+    </div>
+    <div class="nav-wrapper">
+    </div>
+  </nav>
+  <aside class="aside">
+    <nav class="sidebar">
+      <ul class="nav">
+        <li ui-sref-active="active">
+          <a ui-sref="shuwo.default"><em class="fa fa-dashboard"></em> <span class="item-text">概览</span></a>
+        </li>
+        <li ng-class="{active: $state.includes('shuwo.category')}">
+          <a ui-sref="shuwo.category.list"><em class="fa fa-list-ol"></em> <span class="item-text">产品分类</span></a>
+        </li>
+        <li ng-class="{active: $state.includes('shuwo.shop')}">
+          <a ui-sref="shuwo.shop.list"><em class="fa fa-building"></em> <span class="item-text">店铺管理</span></a>
+        </li>
+        <li ng-class="{active: $state.includes('shuwo.order')}">
+          <a ui-sref="shuwo.order.list"><em class="fa fa-file-text"></em> <span class="item-text">订单管理</span></a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="shuwo.user"><em class="fa fa-users"></em> <span class="item-text">用户管理</span></a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <section>
+    <section class="main-content" ui-view></section>
+  </section>
+</section>

@@ -1,0 +1,52 @@
+<h3>产品分类</h3>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">产品分类列表</div>
+      <div class="panel-body">
+        <table class="table table-striped table-hover" role="grid">
+          <thead>
+          <tr role="row">
+            <th>id</th>
+            <th>名称</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr role="row" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="c in categoryList">
+            <td>{{c.categoryid}}</td>
+            <td>{{c.categoryname}}</td>
+            <td class="op">
+              <i class="fa fa-trash" ng-click="selectCategory(c.categoryid);" bs-popover data-template="confirmRemoveCategory.html" data-animation="am-flip-x"></i>
+              <a ui-sref="shuwo.category.edit({categoryid:c.categoryid})"><i class="fa fa-edit"></i></a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-footer">
+        <a ui-sref="shuwo.category.add" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加产品分类</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="confirmRemoveCategory.html">
+  <div class="popover" tabindex="-1">
+    <div class="arrow"></div>
+    <h3 class="popover-title">确认删除？</h3>
+
+    <div class="popover-content text-center">
+      <form name="changeGroupNameForm">
+        <div class="text-center">
+          <button type="button" class="btn btn-danger btn-sm" style="width: 45%;" ng-click="removeCategory(this)">删除
+          </button>
+          <button type="button" class="btn btn-default btn-sm" style="width: 45%;"
+                  ng-click="$event.preventDefault();$hide();">取消
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>

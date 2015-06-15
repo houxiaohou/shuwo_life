@@ -1,0 +1,61 @@
+<div class="container-fluid order">
+  <div class="global-header checkout-nav text-center">
+    <a ui-sref="shuwoShop.main" class="link back">
+      <i class="fa fa-chevron-left"></i>
+    </a>
+    <span class="title">标记订单为无效</span>
+  </div>
+  <p class="loading text-center" ng-show="loading">
+    <i class="fa fa-spinner fa-spin"></i>
+  </p>
+
+  <div class="container-fluid order-invalid" ng-show="!loading">
+    <p style="padding: 5px 0;">选择订单无效的原因后提交</p>
+
+    <div>
+      <ul class="list-group">
+        <li class="list-group-item row" ng-repeat="r in reasones" ng-click="choseReason(r)">
+          <div class="col-xs-9">{{r}}</div>
+          <div class="col-xs-3 text-center color-green">
+            <i class="fa fa-circle-thin" ng-if="reason!=r"></i>
+            <i class="fa fa-check-circle" ng-if="reason==r"></i>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-block btn-danger" ng-click="confirm()">标记为无效订单</button>
+    <div class="order-info">
+      <p>订单时间：{{order.createdtime}}</p>
+      <p>订单编号：{{order.orderid}}</p>
+      <p>联系电话：<a href="tel:{{order.phone}}" class="tel">{{order.phone}}（点击拨打）</a></p>
+      <p>配送地址：{{order.address}}</p>
+      <p ng-if="order.notes.length>0">备注：{{order.notes}}</p>
+      <p class="divider-grey"></p>
+      <table class="table">
+        <tr class="text-center row" ng-repeat="p in order.productdetail">
+          <td>{{p.productname}}</td>
+          <td>
+            <p class="color-red" ng-if="p.attribute=='1'&&order.orderstatus=='0'">{{p.quantity}}个<span
+              class="text-small">（约{{p.quantity*p.unitweight | weight}}）</span>
+            </p>
+
+            <p class="color-red" ng-if="p.attribute=='1'&&order.orderstatus=='1'">{{p.quantity}}个<span
+              class="text-small">（{{p.realweight}}g）</span>
+            </p>
+
+            <p class="color-red" ng-if="p.attribute=='2'">{{p.quantity*250}}g</p>
+
+            <p class="color-red" ng-if="p.attribute=='3'">{{p.quantity}}{{p.unit}}</p>
+          </td>
+          <td>
+            <p class="color-red" ng-if="p.attribute=='1'&&order.orderstatus=='0'">约￥{{p.realprice}}</p>
+
+            <p class="color-red" ng-if="p.attribute=='1'&&order.orderstatus=='1'">￥{{p.realprice}}</p>
+
+            <p class="color-red" ng-if="p.attribute=='2'||p.attribute=='3'">￥{{p.realprice}}</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
