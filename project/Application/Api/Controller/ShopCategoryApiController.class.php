@@ -11,7 +11,7 @@ class ShopCategoryApiController extends RestController {
 	// 返回所有种类
 	public function getallshopcategorys() {
 		$authorize = new Authorize ();
-		$auid = $authorize->Filter ( 'admin' );
+		$auid = $authorize->Filter ( 'admin,user' );
 		if ($auid) {
 			$shopcategory = M ( "shopcategory" );
 			$data = $shopcategory->select ();

@@ -15,7 +15,7 @@ class ShopApiController extends RestController {
 	        $authorize = new Authorize ();
         if ($authorize->Filter("admin")) {
             $shop = M("shop");
-            $data = $shop->select();
+            $data = $shop->order('weight desc')->select();
             if (!count($data)) {
                 $data = [];
             }
@@ -88,7 +88,34 @@ class ShopApiController extends RestController {
 			$geohashcode = $geohash->encode ( $lat, $lng );
 			$likegeo = substr ( $geohashcode, 0, $n );
 			$sql = 'SELECT *,GETDISTANCE(lat,lng,'.$lat.','.$lng.') AS distance FROM  
-				shop where geohash like "'.$likegeo.'%" AND 1 HAVING distance<=2000 AND isopen =true ORDER BY distance ASC LIMIT '.$start.','.$count;
+				shop where geohash like "'.$likegeo.'%" AND 1 HAVING distance<=3000 ORDER BY isopen desc, weight desc, distance ASC LIMIT '.$start.','.$count;
+			$data = $shop->query ( $sql );
+			if (! count ( $data )) {
+				$data = [ ];
+			}
+		} else {
+			$data = [ ];
+		}
+		$this->response ( $data, "json" );
+	}
+	
+	
+	// 通过商铺种类得到店铺
+	public function getshopsbycategory() {
+		$get = 'get.';
+		$shop = M ( "shop" );
+		$geohash = new Geohash ();
+		$lat = doubleval ( I ( $get . ShopConst::LATITUDE, 0) );
+		$lng = doubleval ( I ( $get . ShopConst::LONGITUDE, 0 ) );
+		$start = intval ( I ( 'get.start', 0 ) );
+		$count = intval ( I ( 'get.count', 0 ) );
+		$ctgid = intval(I ( 'get.id', 0 ) );
+		$n = 3;
+		if ($lat > 0 & $lng > 0 & $start >= 0 & $count > 0) {
+			$geohashcode = $geohash->encode ( $lat, $lng );
+			$likegeo = substr ( $geohashcode, 0, $n );
+			$sql = 'SELECT *,GETDISTANCE(lat,lng,'.$lat.','.$lng.') AS distance FROM
+				shop where geohash like "'.$likegeo.'%" AND 1 HAVING distance<=3000 AND spcid ='.$ctgid.' ORDER BY isopen desc, weight desc, distance ASC LIMIT '.$start.','.$count;
 			$data = $shop->query ( $sql );
 			if (! count ( $data )) {
 				$data = [ ];
@@ -106,7 +133,7 @@ class ShopApiController extends RestController {
 		$authorize = new Authorize ();
 		$auid = $authorize->Filter ( 'admin');
 		if ($auid) {
-			$sql = "select * from product join category on product.categoryid = category.categoryid where shopid=".$shopid." order by productid DESC";
+			$sql = "select * from product join category on product.categoryid = category.categoryid where shopid=".$shopid." order by weight DESC";
 			$data = $product->query($sql);
 			if (! count ( $data )) {
 				$data = [ ];
@@ -140,7 +167,7 @@ class ShopApiController extends RestController {
 		$product = M ( "product" );
 		$shopid = intval ( I ( 'get.id', 0 ) );
 		if ($shopid) {
-			$data = $product->where ( "shopid=".$shopid." AND issale=1" )->order ( 'categoryid asc' )->select ();
+			$data = $product->where ( "shopid=".$shopid." AND issale=1" )->order ( 'weight desc ,categoryid asc' )->select ();
 			if (! count ( $data )) {
 				$data = [ ];
 			}
@@ -254,6 +281,9 @@ class ShopApiController extends RestController {
                 if (intval(I( $post . ShopConst::DISTANCE))) {
                     $data [ShopConst::DISTANCE] = intval(I( $post . ShopConst::DISTANCE));
                 }
+                if (intval(I( $post . ShopConst::WEIGHT))) {
+                    $data [ShopConst::WEIGHT] = intval(I( $post . ShopConst::WEIGHT));
+                }
 				if (I ( $post . ShopConst::ISOPEN ) != null) {
 					$isopen = intval ( I ( $post . ShopConst::ISOPEN ) );
 					if ($isopen) {
@@ -325,6 +355,9 @@ class ShopApiController extends RestController {
 				}
                 if (intval(I( $post . ShopConst::DISTANCE))) {
                     $data [ShopConst::DISTANCE] = intval(I( $post . ShopConst::DISTANCE));
+                }
+                if (intval(I( $post . ShopConst::WEIGHT))) {
+                    $data [ShopConst::WEIGHT] = intval(I( $post . ShopConst::WEIGHT));
                 }
 				if (I ( $post . ShopConst::ISOPEN ) != null) {
 					$isopen = intval ( I ( $post . ShopConst::ISOPEN ) );

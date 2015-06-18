@@ -5,6 +5,7 @@ return array(
         //店铺URL配置
         array('allshops', 'ShopApi/getallshops', '', array('method' => 'GET')),
         array('shops', 'ShopApi/getshops', '', array('method' => 'GET')),
+    	array('spc/:id\d/shops', 'ShopApi/getshopsbycategory', '', array('method' => 'GET')),
         array('usershop', 'ShopApi/usergetshops', '', array('method' => 'GET')),
         array('shop/:id\d/allproducts', 'ShopApi/admingetallproducts', '', array('method' => 'GET')),
         array('shop/allproducts', 'ShopApi/usergetallproducts', '', array('method' => 'GET')),
