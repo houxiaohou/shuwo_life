@@ -828,74 +828,149 @@ class OrderApiController extends RestController
         }
     }
 
+//     // 用户确认订单
+//     public function orderconfirm()
+//     {
+//         $authorize = new Authorize ();
+//         $auid = $authorize->Filter('user');
+//         if (intval($auid)) {
+//             $poststr = "post.";
+//             $data = [];
+//             $orderid = I($poststr . OrderConst::ORDERID);
+//             $order = M('orders');
+//             $bags = M("bag");
+//             $user = M("user");
+//             $orderdata = $order->where("orderid=".$orderid)->find();
+//             if(count($orderdata))
+//             {
+//             	if ($order->where("orderid = '" . $orderid . "' AND userid=" . $auid)->setField("orderstatus", 3) !== false) {
+            		
+            		
+//             		$currentdate = date('Y-m-d H:i:s',time());
+
+//                     // 设置确认收货时间
+//                     $order->where("orderid=" . $orderid)->setField("user_confirm_time",$currentdate);
+//                     //加入送红包
+// //             	    $userid = $orderdata[OrderConst::USERID];
+// //             	    $usertype = $user->where('userid='.$userid)->getField('usertype');
+// //             	    if(intval($usertype)!=1)
+// //             	    {
+// //             	    	$bagcount = $bags->where("user_id = ".$userid.' and isauto=1')->select();
+// //             	    	if (count($bagcount)<$totalbags)
+// //             	    	{
+// //             	    		$current = date('Y-m-d',strtotime('+1 days'));
+// //             	    		$expirdate = date('Y-m-d',strtotime('+7 days'));
+// //             	    		$expirdate = $expirdate." 23:59:59";
+// //             	    		$bagitem[BagConst::START] =$current;
+// //             	    		$bagitem[BagConst::SHOP_ID] = $orderdata[Orderconst::SHOPID];
+// //             	    		$bagitem[BagConst::TYPE]=1;
+// //             	    		$bagitem[BagConst::EXPIRES]=$expirdate;
+// //             	    		$bagitem[BagConst::USED] = 0;
+// //             	    		$bagitem[BagConst::AMOUNT] = 5;
+// //             	    		$bagitem[BagConst::USER_ID]= $auid;
+// //             	    		$bagitem[BagConst::ISEVER] = 0;
+// //             	    		$bagitem[BagConst::ISAOUT]=1;
+// //             	    		$bagid = $bags->add($bagitem);
+// //             	    		if($bagid)
+// //             	    		{
+// //             	    			$url = U("WeixinqueueApi/sendbagtouser/", '', '', true);
+// //             	    			$params = [
+// //             	    					"userid" => $auid,
+// //             	    					"bagid" => $bagid
+// //             	    					];
+// //             	    			$this->curl_request_async($url, $params);
+// //             	    		}
+//              	    	//}
+//             	    //
+//             	//}
+
+//             		$data = $orderid;
+//             	}
+//             }
+//             $this->response($data, "json");
+//         } else {
+//             $message ["msg"] = "Unauthorized";
+//             $this->response($message, 'json', '401');
+//         }
+
+//     }
+    
+    
+    
     // 用户确认订单
     public function orderconfirm()
     {
-
-    	$totalbags = 4;
+        $order = M('orders');
+        $poststr = "post.";
+        $orderid = I($poststr . OrderConst::ORDERID);
         $authorize = new Authorize ();
-        $auid = $authorize->Filter('user');
-        if (intval($auid)) {
-            $poststr = "post.";
-            $data = [];
-            $orderid = I($poststr . OrderConst::ORDERID);
-            $order = M('orders');
-            $bags = M("bag");
-            $user = M("user");
-            $orderdata = $order->where("orderid=".$orderid)->find();
-            if(count($orderdata))
-            {
-            	if ($order->where("orderid = '" . $orderid . "' AND userid=" . $auid)->setField("orderstatus", 3) !== false) {
-            		
-            		
-            		$currentdate = date('Y-m-d H:i:s',time());
-
-                    // 设置确认收货时间
-                    $order->where("orderid=" . $orderid)->setField("user_confirm_time",$currentdate);
-                    //加入送红包
-//             	    $userid = $orderdata[OrderConst::USERID];
-//             	    $usertype = $user->where('userid='.$userid)->getField('usertype');
-//             	    if(intval($usertype)!=1)
-//             	    {
-//             	    	$bagcount = $bags->where("user_id = ".$userid.' and isauto=1')->select();
-//             	    	if (count($bagcount)<$totalbags)
-//             	    	{
-//             	    		$current = date('Y-m-d',strtotime('+1 days'));
-//             	    		$expirdate = date('Y-m-d',strtotime('+7 days'));
-//             	    		$expirdate = $expirdate." 23:59:59";
-//             	    		$bagitem[BagConst::START] =$current;
-//             	    		$bagitem[BagConst::SHOP_ID] = $orderdata[Orderconst::SHOPID];
-//             	    		$bagitem[BagConst::TYPE]=1;
-//             	    		$bagitem[BagConst::EXPIRES]=$expirdate;
-//             	    		$bagitem[BagConst::USED] = 0;
-//             	    		$bagitem[BagConst::AMOUNT] = 5;
-//             	    		$bagitem[BagConst::USER_ID]= $auid;
-//             	    		$bagitem[BagConst::ISEVER] = 0;
-//             	    		$bagitem[BagConst::ISAOUT]=1;
-//             	    		$bagid = $bags->add($bagitem);
-//             	    		if($bagid)
-//             	    		{
-//             	    			$url = U("WeixinqueueApi/sendbagtouser/", '', '', true);
-//             	    			$params = [
-//             	    					"userid" => $auid,
-//             	    					"bagid" => $bagid
-//             	    					];
-//             	    			$this->curl_request_async($url, $params);
-//             	    		}
-             	    	//}
-            	    //
-            	//}
-
-            		$data = $orderid;
-            	}
-            }
-            $this->response($data, "json");
-        } else {
+        $auid = $authorize->Filter("admin,shop");
+        if (!$auid) {
             $message ["msg"] = "Unauthorized";
             $this->response($message, 'json', '401');
+        } else {
+            if (intval($auid)) {
+                if ($auid != $order->where("orderid=" . $orderid)->getField("shopid")) {
+                    $message ["msg"] = "Unauthorized";
+                    $this->response($message, 'json', '401');
+                }
+            }
         }
-
+    	if ($auid) {
+    		$data = [];
+    		$orderdata = $order->where("orderid=".$orderid)->find();
+    		if(count($orderdata))
+    		{
+    			if ($order->where("orderid = '" . $orderid)->setField("orderstatus", 4) !== false) {
+    
+    
+    				$currentdate = date('Y-m-d H:i:s',time());
+    				// 设置确认收货时间
+    				$order->where("orderid=" . $orderid)->setField("user_confirm_time",$currentdate);
+    				$data = $orderid;
+    			}
+    		}
+    		$this->response($data, "json");
+    	} else {
+    		$message ["msg"] = "Unauthorized";
+    		$this->response($message, 'json', '401');
+    	}
     }
+    
+    public function shopdeliveryorder()
+    {
+    	$order = M('orders');
+    	$poststr = "post.";
+    	$orderid = I($poststr . OrderConst::ORDERID);
+    	$authorize = new Authorize ();
+    	$auid = $authorize->Filter("admin,shop");
+    	if (!$auid) {
+    		$message ["msg"] = "Unauthorized";
+    		$this->response($message, 'json', '401');
+    	} else {
+    		if (intval($auid)) {
+    			if ($auid != $order->where("orderid=" . $orderid)->getField("shopid")) {
+    				$message ["msg"] = "Unauthorized";
+    				$this->response($message, 'json', '401');
+    			}
+    		}
+    	}
+    	if ($auid) {
+    		$data = [];
+    		$orderdata = $order->where("orderid=".$orderid)->find();
+    		if(count($orderdata))
+    		{
+    			if ($order->where("orderid = '" . $orderid)->setField("orderstatus", 3) !== false) {
+    				$data = $orderid;
+    			}
+    		}
+    		$this->response($data, "json");
+    	} else {
+    		$message ["msg"] = "Unauthorized";
+    		$this->response($message, 'json', '401');
+    	}
+    }
+    
 
     //管理员根据状态查询订单
     public function filterOrder()
