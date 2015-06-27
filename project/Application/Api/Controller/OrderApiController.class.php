@@ -700,7 +700,7 @@ class OrderApiController extends RestController
                 $userinfo = $user->where('userid=' . $userid)->find();
                 if (count($userinfo) && !empty ($userinfo ['openid'])) {
                     $current = date('y年m月d日H:i');
-                    $msg = "您所购买的水果,商家已于" . $current . "称重";
+                    $msg = "您所购买的商品,商家已于" . $current . "确认";
                     $realtotal = $order->where($where4)->getField('rtotalprice');
                     $totalprice = "实际价格:" . $realtotal . "元";
                     if (count($userinfo) && !empty ($userinfo ["openid"])) {
