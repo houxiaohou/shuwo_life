@@ -910,7 +910,7 @@ class OrderApiController extends RestController
             $this->response($message, 'json', '401');
         } else {
             if (intval($auid)) {
-                if ($auid != $order->where("orderid=" . $orderid)->getField("shopid")) {
+                if ($auid != $order->where("orderid=".$orderid)->getField("shopid")) {
                     $message ["msg"] = "Unauthorized";
                     $this->response($message, 'json', '401');
                 }
@@ -921,12 +921,12 @@ class OrderApiController extends RestController
     		$orderdata = $order->where("orderid=".$orderid)->find();
     		if(count($orderdata))
     		{
-    			if ($order->where("orderid = '" . $orderid)->setField("orderstatus", 4) !== false) {
+    			if ($order->where("orderid=" . $orderid)->setField("orderstatus", 4) !== false) {
     
     
     				$currentdate = date('Y-m-d H:i:s',time());
     				// 设置确认收货时间
-    				$order->where("orderid=" . $orderid)->setField("user_confirm_time",$currentdate);
+    				$order->where("orderid=".$orderid)->setField("user_confirm_time",$currentdate);
     				$data = $orderid;
     			}
     		}
@@ -957,10 +957,10 @@ class OrderApiController extends RestController
     	}
     	if ($auid) {
     		$data = [];
-    		$orderdata = $order->where("orderid=".$orderid)->find();
+    		$orderdata = $order->where("orderid=" . $orderid)->find();
     		if(count($orderdata))
     		{
-    			if ($order->where("orderid = '" . $orderid)->setField("orderstatus", 3) !== false) {
+    			if ($order->where("orderid=" . $orderid)->setField("orderstatus", 3) !== false) {
     				$data = $orderid;
     			}
     		}

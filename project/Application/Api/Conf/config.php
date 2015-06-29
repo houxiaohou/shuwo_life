@@ -62,6 +62,7 @@ return array(
         // array('admin','AdminApi/addadmin', '', array('method' => 'POST')),//添加管理员
 
         //订单URL配置
+        array('order/:id/print', 'PrintApi/printOrder', '', array('method' => 'POST')),   //打印订单
         array('order/:id', 'OrderApi/getorderbyid', '', array('method' => 'GET')),//根据GET传的id查询对应的订单
         array('ordershop/:id', 'OrderApi/getorderbyshopid', '', array('method' => 'GET')),//根据GET传的shopid查询对应店铺的的订单
         array('user/orders', 'OrderApi/getordersbyuser', '', array('method' => 'GET')),//获取当前用户的订单
